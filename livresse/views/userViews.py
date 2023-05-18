@@ -1,17 +1,9 @@
-# from rest_framework import viewsets
-# from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 from livresse.models import User
-from livresse.serializer import UserSerializer
+from livresse.serializers.userSerializer import UserSerializer
 import jwt, datetime
-
-# Create your views here.
-
-# class UsersViewSet(viewsets.ModelViewSet):
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializer
 
 class UserRegister(APIView):
     queryset = User.objects.all()

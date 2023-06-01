@@ -1,10 +1,12 @@
 from django.contrib import admin
 from django.urls import path, include
 from .router import router
-
+from livresse.views.userViews import UserLogin, UserView, UserLogout
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('/', admin.site.urls),
     path('api/', include(router.urls)),
-    # path('api/', include(userUrls)),
+    path('api/users/', UserView.as_view(), name='user-view'),
+    path('api/users/login/', UserLogin.as_view(), name='user-login'),
+    path('api/users/logout/', UserLogout.as_view(), name='user-logout'),
 ]

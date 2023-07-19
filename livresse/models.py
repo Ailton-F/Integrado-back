@@ -4,8 +4,10 @@ from django.contrib.auth.models import AbstractBaseUser
 
 class User(AbstractBaseUser):
     name = models.CharField(max_length=30)
+    idName = models.CharField(max_length=30)
     email = models.CharField(max_length=30, unique=True)
     password = models.CharField(max_length=30)
+    admin = models.BooleanField(default=False)
     username = None
 
     USERNAME_FIELD = 'email'
@@ -21,3 +23,24 @@ class Book(models.Model):
     price = models.DecimalField(decimal_places=2, max_digits=5)
     img = models.ImageField(upload_to='uploads/', height_field=None, width_field=None, max_length=None)
     add_dthr = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+class Buy(models.Model):
+    id_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    id_book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    dt_hr = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+class Desire(models.Model):
+    id_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    id_book = models.ForeignKey(Book, on_delete=models.CASCADE)
+
+class PutBook(models.Model):
+    id_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    id_book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    dt_hr = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+class Category(models.Model):
+    nome = models.CharField(max_length=256)
+
+class CatBook(models.Model):
+    id_cat = models.ForeignKey(Category, on_delete=models.CASCADE)
+    id_book = models.ForeignKey(Book, on_delete=models.CASCADE)

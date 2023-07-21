@@ -69,20 +69,30 @@ class UserView(APIView):
     queryset = User.objects.all()
     permission_classes = []
 
-    def get(self, req):
+    def get(self, req, *args, **kwargs):
         token = req.COOKIES.get('jwt')
+
         if not token: raise AuthenticationFailed('Unauthenticated')
 
         try: payload = jwt.decode(token, 'secret', algorithms=['HS256'])
         except jwt.ExpiredSignatureError: raise AuthenticationFailed('Unauthenticated')
-        
 
-        if payload['admin']:
-            user = User.objects.all()
-            serializer = UserSerializer(user, many=True)
-        else:
-            user = User.objects.get(id=payload['id'])
+        try:
+            id = kwargs['id']
+            if payload['admin'] and id != None:
+                user = User.objects.get(id=id)
+            else:
+                user = User.objects.get(id=payload['id'])
+            
             serializer = UserSerializer(user)
+            
+        except:
+            if payload['admin']:
+                user = User.objects.all()
+                serializer = UserSerializer(user, many=True)
+            else:
+                user = User.objects.get(id=payload['id'])
+                serializer = UserSerializer(user)
 
         # hasher = PBKDF2PasswordHasher()
         # print( hasher.decode(user.password) )
@@ -94,14 +104,24 @@ class UserView(APIView):
         serializer.save()
         return Response(serializer.data)
     
-    def put(self, req):
+    def put(self, req, *args, **kwargs):
         token = req.COOKIES.get('jwt')
-        if not token:raise AuthenticationFailed('Unauthenticated')
 
+        if not token:raise AuthenticationFailed('Unauthenticated')
         try:payload = jwt.decode(token, 'secret', algorithms=['HS256'])
         except jwt.ExpiredSignatureError:raise AuthenticationFailed('Unauthenticated')
 
-        user = User.objects.filter(id=payload['id']).first()
+        try:
+            id = kwargs['id']
+            if payload['admin'] and id != None:
+                user = User.objects.get(id=id)
+            else:
+                user = User.objects.get(id=payload['id'])
+            
+            serializer = UserSerializer(user)
+            
+        except jwt.MissingRequiredClaimError: raise AuthenticationFailed('You dont have permission to do that!')
+
 
         if not user:raise AuthenticationFailed('User not found')
         

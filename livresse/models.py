@@ -15,7 +15,10 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return self.name
-    
+
+class Category(models.Model):
+    nome = models.CharField(max_length=256)
+
 class Book(models.Model):
     title = models.CharField(max_length=256)
     author = models.CharField(max_length=256)
@@ -37,10 +40,7 @@ class PutBook(models.Model):
     id_user = models.ForeignKey(User, on_delete=models.CASCADE)
     id_book = models.ForeignKey(Book, on_delete=models.CASCADE)
     dt_hr = models.DateTimeField(auto_now=False, auto_now_add=True)
-
-class Category(models.Model):
-    nome = models.CharField(max_length=256)
-
+    
 class CatBook(models.Model):
     id_cat = models.ForeignKey(Category, on_delete=models.CASCADE)
     id_book = models.ForeignKey(Book, on_delete=models.CASCADE)

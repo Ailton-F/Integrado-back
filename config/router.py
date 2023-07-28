@@ -6,7 +6,7 @@ from livresse.views.CatBookView import CategoryView, CatBookView
 
 router = routers.DefaultRouter()
 router.register('adm_users', AdmUserView)
-router.register('books', BookView)
+# router.register('books', BookView)
 router.register('buy', BuyBookView)
 router.register('desire', DesireBookView)
 router.register('sell', PutBookView)

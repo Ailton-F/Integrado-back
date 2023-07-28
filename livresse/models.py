@@ -24,10 +24,10 @@ class Book(models.Model):
     author = models.CharField(max_length=256)
     description = models.CharField(max_length=256)
     price = models.DecimalField(decimal_places=2, max_digits=5)
-    # img1 = models.ImageField(upload_to='uploads/', height_field=None, width_field=None, max_length=None)
-    # img2 = models.ImageField(upload_to='uploads/', height_field=None, width_field=None, max_length=None)
-    # img3 = models.ImageField(upload_to='uploads/', height_field=None, width_field=None, max_length=None)
-    # img4 = models.ImageField(upload_to='uploads/', height_field=None, width_field=None, max_length=None)
+    img1 = models.ImageField(upload_to='uploads/', default="",height_field=None, width_field=None, max_length=None, null=True, blank=True)
+    img2 = models.ImageField(upload_to='uploads/', default="",height_field=None, width_field=None, max_length=None, null=True, blank=True)
+    img3 = models.ImageField(upload_to='uploads/', default="",height_field=None, width_field=None, max_length=None, null=True, blank=True)
+    img4 = models.ImageField(upload_to='uploads/', default="",height_field=None, width_field=None, max_length=None, null=True, blank=True)
     add_dthr = models.DateTimeField(auto_now=False, auto_now_add=True)
 
 class Buy(models.Model):

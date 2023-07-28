@@ -166,7 +166,8 @@ STATIC_URL = '/static/'
 
 # Uploads archive
 
-MEDIA_ROOTS = os.path.join(BASE_DIR, "uploads")
+MEDIA_ROOT = ''
+MEDIA_URL = ''
 
 # Auth configs
 
